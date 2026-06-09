@@ -5,6 +5,7 @@ export async function startWorkflow(req, res) {
   try {
     const { domain } = req.body;
 
+    console.log("Received domain:", domain);
     if (!domain) {
       return res.status(400).json({
         success: false,

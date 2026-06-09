@@ -21,9 +21,14 @@ class ProspeoService {
           company_website: domain,
         },
       });
+      console.log("Prospeo Success:", response.data);
 
       return response.data.company;
     } catch (error) {
+      console.log(error.response?.data);
+      console.log(error.response?.status);
+      console.log("Response:", JSON.stringify(error.response?.data, null, 2));
+      console.log("Message:", error.message);
       throw new Error(
         `Prospeo Company Enrich Error: ${
           error.response?.data?.error_code || error.message
