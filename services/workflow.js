@@ -13,8 +13,7 @@ class workflowService {
       throw new Error("Campaign not found");
     }
     try {
-
-        //Prospeo finding the fields of the seed company
+      //Prospeo finding the fields of the seed company
 
       io.emit("workflow:update", {
         stage: "company_discovery",
@@ -23,7 +22,8 @@ class workflowService {
       });
       console.log("Step 1");
       const seedCompany = await prospeoService.enrichCompany(seedDomain);
-
+      console.log(error.response?.data);
+      console.log(error.response?.status);
 
       //Prospeo finding similar companies
 
@@ -158,12 +158,12 @@ class workflowService {
         `${campaign.stats.contactsFound} contacts, ` +
         `${campaign.stats.emailsSent} emails sent`;
 
-        io.emit("workflow:update", {
-          stage: "completed",
-          progress: 100,
-          message: "Workflow completed successfully",
-          campaignId: campaign._id,
-        });
+      io.emit("workflow:update", {
+        stage: "completed",
+        progress: 100,
+        message: "Workflow completed successfully",
+        campaignId: campaign._id,
+      });
       await campaign.save();
 
       return { campaignId: campaign._id };
