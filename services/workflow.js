@@ -13,6 +13,9 @@ class workflowService {
       throw new Error("Campaign not found");
     }
     try {
+
+        //Prospeo finding the fields of the seed company
+
       io.emit("workflow:update", {
         stage: "company_discovery",
         progress: 10,
@@ -20,6 +23,9 @@ class workflowService {
       });
       console.log("Step 1");
       const seedCompany = await prospeoService.enrichCompany(seedDomain);
+
+
+      //Prospeo finding similar companies
 
       io.emit("workflow:update", {
         stage: "company_discovery",
@@ -47,6 +53,8 @@ class workflowService {
 
       console.log(companyDomains);
 
+      //Prospeo finding decision makers
+
       io.emit("workflow:update", {
         stage: "prospeo_contacts",
         progress: 50,
@@ -62,6 +70,9 @@ class workflowService {
         progress: 75,
         message: "Verifying emails",
       });
+
+      //Prospeo serching way to contact decision makers mainly emails
+
       console.log("Step 4");
       const contacts = await prospeoService.enrichContacts(people.slice(0, 1));
       console.log(JSON.stringify(contacts[0], null, 2));
@@ -92,6 +103,9 @@ class workflowService {
       });
 
       console.log(campaign.contacts);
+
+      //GROQ generating mail
+
       console.log("Starting AI generation");
       for (const contact of campaign.contacts) {
         const email = await aiService.generateEmail({
@@ -116,6 +130,9 @@ class workflowService {
         progress: 95,
         message: "Sending emails",
       });
+
+      //Brevo sending email
+
       console.log("Starting Brevo sending");
       for (const contact of campaign.contacts) {
         try {
