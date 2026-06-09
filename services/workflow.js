@@ -6,6 +6,7 @@ import Campaign from "../models/campaign.js";
 
 class workflowService {
   async run(seedDomain, campaignId) {
+     console.log("WORKFLOW BUILD 2026-06-09 V1");
     const io = getIO();
     const campaign = await Campaign.findById(campaignId);
 
@@ -22,8 +23,7 @@ class workflowService {
       });
       console.log("Step 1");
       const seedCompany = await prospeoService.enrichCompany(seedDomain);
-      console.log(error.response?.data);
-      console.log(error.response?.status);
+
 
       //Prospeo finding similar companies
 
